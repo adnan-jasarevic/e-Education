@@ -25,5 +25,22 @@ Pratite ove korake kako biste podigli aplikaciju na svom računaru od nule.
 
 ### 1. Kloniranje Repozitorija
 ```bash
-git clone [https://github.com/TVOJ_USERNAME/IME_REPOZITORIJA.git](https://github.com/TVOJ_USERNAME/IME_REPOZITORIJA.git)
-cd IME_REPOZITORIJA
+git clone https://github.com/emirgenjac/e-Education.git
+cd e-Education
+```
+### 2. Pokretanje Dockera
+```bash
+docker compose up
+```
+### 3. Pokretanje Backenda
+```bash
+cd backend
+npm install
+npm run dev
+```
+### 4. Pokretanje Frontenda
+```bash
+cd frontend
+npm install
+npm run dev
+```
