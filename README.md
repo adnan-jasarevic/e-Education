@@ -1,8 +1,8 @@
-# 🎓 eObrazovanje - Full-Stack Web Aplikacija
+# eObrazovanje - Full-Stack Web Aplikacija
 
 Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandidata za posao i prikupljanje anonimnog feedbacka. Sistem je podijeljen na nezavisne podsisteme i oslanja se na relaciju sa bazom podataka u realnom vremenu.
 
-## 🚀 Tehnološki Stack
+## Tehnološki Stack
 
 - **Frontend:** React.js, Axios
 - **Backend:** Node.js (Express.js)
@@ -10,7 +10,7 @@ Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandida
 
 ---
 
-## 📊 Pregled Modula i Podsistema
+## Pregled Modula i Podsistema
 
 1. **Podaci i Ocjene (E-Dnevnik):** Evidencija učenika, predmeta i ocjena sa proračunom prosjeka.
 2. **Eksterna Matura:** Prijava učenika na maturske ispite pod jedinstvenim, automatski generisanim anonimnim kodovima.
@@ -19,7 +19,7 @@ Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandida
 
 ---
 
-## 💻 Instrukcije za Pokretanje (Lokalno okruženje)
+## Instrukcije za Pokretanje (Lokalno okruženje)
 
 Pratite ove korake kako biste podigli aplikaciju na svom računaru od nule.
 
