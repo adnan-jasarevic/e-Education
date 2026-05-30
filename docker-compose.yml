@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: eobrazovanje_mysql_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: eobrazovanje_demo
+      MYSQL_ROOT_PASSWORD: root_lozinka
+    ports:
+      - "3307:3306"
+    volumes:
+      # Ova linija uzima tvoj init.sql i automatski ga izvršava pri prvom podizanju baze
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
