@@ -4,11 +4,6 @@ DROP DATABASE IF EXISTS eobrazovanje_demo;
 CREATE DATABASE eobrazovanje_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE eobrazovanje_demo;
 
--- ==========================================
--- 1. STRUCTURING: KREIRANJE SVIH TABELA
--- ==========================================
-
--- 1.1. TABELA KORISNICI
 CREATE TABLE korisnici (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(50),
@@ -18,7 +13,6 @@ CREATE TABLE korisnici (
     uloga ENUM('UCENIK', 'PROFESOR', 'KANDIDAT')
 );
 
--- 1.2. POMOĆNE TABELE (ŠIFRARNICI)
 CREATE TABLE predmeti ( 
     id INT AUTO_INCREMENT PRIMARY KEY, 
     naziv VARCHAR(100) 
@@ -42,7 +36,6 @@ CREATE TABLE ankete (
     aktivna BOOLEAN 
 );
 
--- 1.3. TABELE SA STRANIM KLJUČEVIMA (VEZNE TABELE)
 CREATE TABLE ocjene (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ucenik_id INT,
@@ -83,11 +76,6 @@ CREATE TABLE odgovori_na_ankete (
     FOREIGN KEY (anketa_id) REFERENCES ankete(id)
 );
 
--- ==========================================
--- 2. SEEDING: UNOS OSNOVNIH PODATAKA ZA DROPDOWN-OVE
--- ==========================================
-
--- Korisnici (Učenici, Profesori i Kandidati za posao)
 INSERT INTO korisnici (id, ime, prezime, email, lozinka, uloga) VALUES 
 (1, 'Amar', 'Amarić', 'amar@skola.ba', '123456', 'UCENIK'),
 (2, 'Haris', 'Harisić', 'haris@skola.ba', '123456', 'UCENIK'),
@@ -100,22 +88,15 @@ INSERT INTO korisnici (id, ime, prezime, email, lozinka, uloga) VALUES
 (9, 'Belma', 'Belmić', 'belma@posao.ba', '123456', 'KANDIDAT'),
 (10, 'Denis', 'Denisić', 'denis@posao.ba', '123456', 'KANDIDAT');
 
--- Nastavni predmeti
 INSERT INTO predmeti (id, naziv) VALUES 
 (1, 'Matematika'), 
 (2, 'Programiranje'), 
 (3, 'Baze Podataka');
 
--- Konkursi / Pozicije (Sve 3 opcije koje tvoj frontend dropdown očekuje)
 INSERT INTO konkursi (id, pozicija, opis) VALUES 
 (1, 'Profesor Softverskog Inženjerstva', 'Traži se profesor za glavne stručne predmete...'),
 (2, 'Asistent na Računarskim Mrežama', 'Rad u laboratoriju za računarske mreže...'),
 (3, 'Demonstrator na Programiranju', 'Pomoć studentima prve godine na vježbama...');
 
--- Maturski ispiti i Aktivna anketa
 INSERT INTO maturski_ispiti (id, naziv_predmeta, skolska_godina) VALUES (1, 'Eksterna Matura - Matematika', '2025/2026');
 INSERT INTO ankete (id, naslov, aktivna) VALUES (1, 'Anketa za 2026. godinu', TRUE);
-
--- 🌟 NAPOMENA: 
--- Tabele 'ocjene', 'maturske_prijave', 'prijave_na_konkurs' i 'odgovori_na_ankete' 
--- su namjerno ostavljene bez INSERT naredbi, što znači da su POTPUNO PRAZNE.

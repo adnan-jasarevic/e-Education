@@ -14,11 +14,8 @@ const db = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     charset: 'utf8mb4'
-}).promise(); // Korištenje promises omogućava čistiji async/await kod
+}).promise(); 
 
-// ==========================================
-// PODSISTEM 1: eDNEVNIK RUTE
-// ==========================================
 app.get('/api/ucenici', async (req, res) => {
     try {
         const [rows] = await db.query("SELECT id, ime, prezime FROM korisnici WHERE uloga = 'UCENIK'");
@@ -37,16 +34,13 @@ app.get('/api/kandidati', async (req, res) => {
 
 app.get('/api/konkursi', async (req, res) => {
   try {
-    // 1. Izvršavanje SQL upita nad bazom (prilagodi naziv tabele 'konkursi' ako je drugačiji)
-    // Ako koristiš mysql2 sa promises:
-    const [rezultat] = await db.query('SELECT id, pozicija FROM konkursi');
     
-    // Ako tvoj projekat ne koristi destrukciju [rows], već samo 'const rezultat = await...', 
-    // onda šalješ direktno res.json(rezultat);
+    const [rezultat] = await db.query('SELECT id, pozicija FROM konkursi');
+
     res.json(rezultat);
 
   } catch (err) {
-    // 🌟 SADA ĆE BACKEND PROGOVORITI: Ako baza pukne, ovdje ispisuje tačan razlog u terminalu!
+    
     console.error("!!! GREŠKA NA BACKENDU (GET /api/konkursi) !!! ->", err);
     
     res.status(500).json({ 
@@ -83,10 +77,6 @@ app.post('/api/ednevnik/ocjene', async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// ==========================================
-// PODSISTEM 2: EKSTERNA MATURA (Anonimne Prijave)
-// ==========================================
-// Profesor vidi samo anonimni_kod, ne i ime učenika!
 app.get('/api/matura/prijave', async (req, res) => {
     try {
         const [rows] = await db.query('SELECT id, anonimni_kod, osvojeni_bodovi FROM maturske_prijave');
@@ -110,9 +100,6 @@ app.put('/api/matura/ocijeni', async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// ==========================================
-// PODSISTEM 3: eKONKURSI (State Machine logika)
-// ==========================================
 app.get('/api/konkursi/prijave', async (req, res) => {
     try {
         const [rows] = await db.query(`
@@ -133,12 +120,11 @@ app.post('/api/konkursi/prijavi', async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// Ruta koja simulira State Machine prelaze i unutrašnje aktivnosti (entry/exit)
 app.put('/api/konkursi/prijave/:id/status', async (req, res) => {
     const { id } = req.params;
     const { noviStatus, razlog } = req.body;
     try {
-        // Simulacija "Entry" aktivnosti sa tvog State Machine dijagrama
+        
         let dodatniTekst = "";
         if (noviStatus === 'PRIHVACENA') {
             dodatniTekst = " -> [ENTRY: Generisan ugovor o radu i poslan email]";
@@ -152,12 +138,8 @@ app.put('/api/konkursi/prijave/:id/status', async (req, res) => {
     } catch (err) { res.status(500).json(err); }
 });
 
-// ==========================================
-// PODSISTEM 4: ANKETE I FEEDBACK (Potpuna anonimnost)
-// ==========================================
 app.post('/api/ankete/glasaj', async (req, res) => {
     const { anketa_id, ocjena_skole, komentar } = req.body;
-    // Generišemo nasumični token na backendu koji služi samo kao ključ jedinstvenosti
     const anonimni_token = 'TOKEN-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     try {
         await db.query('INSERT INTO odgovori_na_ankete (anketa_id, anonimni_token, ocjena_skole, komentar) VALUES (?, ?, ?, ?)', 

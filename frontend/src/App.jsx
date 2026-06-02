@@ -20,7 +20,6 @@ function App() {
   const [odabraniKonkursId, setOdabraniKonkursId] = useState('1');
   const [sviKonkursi, setSviKonkursi] = useState([]);
 
-  // Forme inputs
   const [novaOcjena, setNovaOcjena] = useState({ ucenik_id: 1, predmet_id: 1, vrijednost: 5 });
   const [maturaBodovi, setMaturaBodovi] = useState({ anonimni_kod: '', bodovi: '' });
   const [anketaForm, setAnketaForm] = useState({ ocjena_skole: 5, komentar: '' });
@@ -43,7 +42,6 @@ function App() {
 
   useEffect(() => { ucitajSve(); }, []);
 
-  // Submit funkcije
   const upisiOcjenu = (e) => {
     e.preventDefault();
     axios.post(`${API_BASE}/ednevnik/ocjene`, novaOcjena).then(res => {
@@ -66,21 +64,19 @@ function App() {
   };
 
   const posaljiKonkursnuPrijavu = () => {
-  // Brza odbrana: ako korisnik nije izabrao ništa, nemoj ni slati na backend
   if (!odabraniKandidatId || !odabraniKonkursId) {
     prikaziPoruku("Molimo izaberite i kandidata i poziciju!");
     return;
   }
 
   axios.post(`${API_BASE}/konkursi/prijavi`, { 
-    kandidat_id: parseInt(odabraniKandidatId),   // Pretvara "3" u 3
-    konkurs_id: parseInt(odabraniKonkursId),     // Pretvara "1" u 1
-    prosjek_ocjena: parseFloat(prosjekInput)      // Pretvara "9.21" u 9.21
+    kandidat_id: parseInt(odabraniKandidatId),   
+    konkurs_id: parseInt(odabraniKonkursId),  
+    prosjek_ocjena: parseFloat(prosjekInput)    
   }).then(res => {
     prikaziPoruku(res.data.message); 
     ucitajSve();
   }).catch(err => {
-    // Ako backend vrati grešku, ispiši tačno šta je problem u poruci
     const tekstGreske = err.response?.data?.error || "Greška na serveru (500)";
     prikaziPoruku("Greška: " + tekstGreske);
     console.error(err);
@@ -103,7 +99,6 @@ function App() {
       setAnketaForm({ ocjena_skole: 5, komentar: '' }); // Očisti formu nakon slanja
     })
     .catch(err => {
-      // Ako backend vrati grešku, prikaži je na ekranu umjesto da šutiš
       const errorMsg = err.response?.data?.error || 'Greška pri spajanju na server!';
       prikaziPoruku('❌ ' + errorMsg);
     });
@@ -189,11 +184,11 @@ function App() {
     <div>
       <h3>💼 Podsistem 3: eKonkursi (State Machine u praksi)</h3>
       
-      {/* NOVA SECKIJA SA DROPDOWNOM UMJESTO JEDNOG DUGMETA */}
+    
 <div style={{ background: '#f9f9f9', padding: '15px', borderRadius: '6px', marginBottom: '25px', border: '1px solid #ddd', maxWidth: '400px' }}>
   <h4 style={{ marginTop: 0, marginBottom: '15px', color: '#333' }}>Pošalji novu prijavu na konkurs:</h4>
   
-  {/* 1. Dropdown za kandidate */}
+  
   <div style={{ marginBottom: '12px' }}>
     <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', fontSize: '14px' }}>Izaberi kandidata:</label>
     <select 
@@ -201,7 +196,7 @@ function App() {
       onChange={(e) => setOdabraniKandidatId(e.target.value)}
       style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: 'white', color: 'black' }}
     >
-      {/* 🌟 DODATO: Prazna opcija koja brani grešku 500 */}
+      
       <option value="">-- Izaberi kandidata sa liste --</option>
       
       {kandidati.map(kand => (
@@ -212,7 +207,7 @@ function App() {
     </select>
   </div>
 
-  {/* NOVI DROPDOWN ZA POZICIJU/KONKURS */}
+  
   <div style={{ marginBottom: '12px' }}>
   <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', fontSize: '14px' }}>Izaberi poziciju (Konkurs):</label>
   <select 
@@ -222,7 +217,7 @@ function App() {
   >
     <option value="">-- Izaberi poziciju za prijavu --</option>
     
-    {/* 🌟 DINAMIČKO MAPIRANJE IZ BAZE */}
+    
     {sviKonkursi.map(konk => (
       <option key={konk.id} value={konk.id}>
         {konk.pozicija} (ID: {konk.id})
@@ -231,7 +226,7 @@ function App() {
   </select>
 </div>
 
-        {/* 2. Input za prosjek ocjena */}
+        
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '5px', fontSize: '14px' }}>Prosjek ocjena:</label>
           <input 
@@ -246,7 +241,7 @@ function App() {
           />
         </div>
 
-        {/* 3. Dugme za slanje */}
+     
         <button 
           onClick={posaljiKonkursnuPrijavu} 
           style={{ background: '#9b59b6', color: 'white', border: 'none', padding: '10px 15px', cursor: 'pointer', borderRadius: '4px', width: '100%', fontWeight: 'bold' }}
@@ -305,7 +300,6 @@ function App() {
 
   <h4>Rezultati ankete (Baza ne čuva podatke o korisniku):</h4>
   
-  {/* 🌟 DODATO: tableLayout: 'fixed' osigurava da se kolone pridržavaju zadatih širina */}
   <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
     <thead>
       <tr style={{background: '#eee'}}>
@@ -317,7 +311,6 @@ function App() {
     <tbody>
       {anketeRezultati.map(ar => (
         <tr key={ar.id}>
-          {/* Token radimo u wrap-u jer dugački stringovi bez razmaka znaju slomiti dizajn */}
           <td style={{ fontFamily: 'monospace', color: '#7f8c8d', wordBreak: 'break-all', fontSize: '13px' }}>
             {ar.anonimni_token}
           </td>
@@ -326,7 +319,6 @@ function App() {
             {ar.ocjena_skole} / 5
           </td>
           
-          {/* 🌟 POPRAVLJENO: Kolona za komentar koja automatski prelama dugačak tekst u novi red */}
           <td style={{ 
             whiteSpace: 'normal', 
             wordBreak: 'break-word', 
