@@ -2,6 +2,8 @@
 
 Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandidata za posao i prikupljanje anonimnog feedbacka. Sistem je podijeljen na nezavisne podsisteme i oslanja se na relaciju sa bazom podataka u realnom vremenu.
 
+### Ovo je demo s mock podacima, korišten prilikom prezentovanja šireg projekta
+
 ## Tehnološki Stack
 
 - **Frontend:** React.js, Axios
