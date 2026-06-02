@@ -1,8 +1,8 @@
-# 🎓 eObrazovanje - Full-Stack Web Aplikacija
+# eObrazovanje - Full-Stack Web Aplikacija
 
 Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandidata za posao i prikupljanje anonimnog feedbacka. Sistem je podijeljen na nezavisne podsisteme i oslanja se na relaciju sa bazom podataka u realnom vremenu.
 
-## 🚀 Tehnološki Stack
+## Tehnološki Stack
 
 - **Frontend:** React.js, Axios
 - **Backend:** Node.js (Express.js)
@@ -10,7 +10,7 @@ Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandida
 
 ---
 
-## 📊 Pregled Modula i Podsistema
+## Pregled Modula i Podsistema
 
 1. **Podaci i Ocjene (E-Dnevnik):** Evidencija učenika, predmeta i ocjena sa proračunom prosjeka.
 2. **Eksterna Matura:** Prijava učenika na maturske ispite pod jedinstvenim, automatski generisanim anonimnim kodovima.
@@ -19,11 +19,28 @@ Sveobuhvatna web platforma za upravljanje školskim procesima, selekciju kandida
 
 ---
 
-## 💻 Instrukcije za Pokretanje (Lokalno okruženje)
+## Instrukcije za Pokretanje (Lokalno okruženje)
 
 Pratite ove korake kako biste podigli aplikaciju na svom računaru od nule.
 
 ### 1. Kloniranje Repozitorija
 ```bash
-git clone [https://github.com/TVOJ_USERNAME/IME_REPOZITORIJA.git](https://github.com/TVOJ_USERNAME/IME_REPOZITORIJA.git)
-cd IME_REPOZITORIJA
+git clone https://github.com/emirgenjac/e-Education.git
+cd e-Education
+```
+### 2. Pokretanje Dockera
+```bash
+docker compose up
+```
+### 3. Pokretanje Backenda
+```bash
+cd backend
+npm install
+npm run dev
+```
+### 4. Pokretanje Frontenda
+```bash
+cd frontend
+npm install
+npm run dev
+```
